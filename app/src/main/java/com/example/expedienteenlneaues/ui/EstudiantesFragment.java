@@ -32,6 +32,8 @@ public class EstudiantesFragment extends Fragment implements ExpedienteAdapter.O
     private ExpedienteAdapter adapter;
     private AppDatabase db;
     private ExecutorService executorService;
+    private RecyclerView recyclerView;
+    private android.widget.TextView tvEmptyState;
 
     @Nullable
     @Override
@@ -41,7 +43,8 @@ public class EstudiantesFragment extends Fragment implements ExpedienteAdapter.O
         db = AppDatabase.getDatabase(requireContext());
         executorService = Executors.newSingleThreadExecutor();
 
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewExpedientes);
+        recyclerView = view.findViewById(R.id.recyclerViewExpedientes);
+        tvEmptyState = view.findViewById(R.id.tvEmptyState);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ExpedienteAdapter(this);
         recyclerView.setAdapter(adapter);
@@ -63,7 +66,16 @@ public class EstudiantesFragment extends Fragment implements ExpedienteAdapter.O
                 carrerasMap.put(c.id, c.nombre);
             }
             if (getActivity() != null) {
-                getActivity().runOnUiThread(() -> adapter.setExpedientes(expedientes, carrerasMap));
+                getActivity().runOnUiThread(() -> {
+                    adapter.setExpedientes(expedientes, carrerasMap);
+                    if (expedientes.isEmpty()) {
+                        tvEmptyState.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                    } else {
+                        tvEmptyState.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                    }
+                });
             }
         });
     }

@@ -27,6 +27,8 @@ public class MateriasFragment extends Fragment implements MateriaAdapter.OnMater
     private MateriaAdapter adapter;
     private AppDatabase db;
     private ExecutorService executorService;
+    private RecyclerView recyclerView;
+    private android.widget.TextView tvEmptyState;
     private int carreraId = -1;
     private String carreraNombre = "";
 
@@ -43,7 +45,8 @@ public class MateriasFragment extends Fragment implements MateriaAdapter.OnMater
         db = AppDatabase.getDatabase(requireContext());
         executorService = Executors.newSingleThreadExecutor();
 
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewMaterias);
+        recyclerView = view.findViewById(R.id.recyclerViewMaterias);
+        tvEmptyState = view.findViewById(R.id.tvEmptyState);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MateriaAdapter(this);
         recyclerView.setAdapter(adapter);
@@ -61,7 +64,16 @@ public class MateriasFragment extends Fragment implements MateriaAdapter.OnMater
         executorService.execute(() -> {
             List<Materia> materias = db.materiaDao().getByCarrera(carreraId);
             if (getActivity() != null) {
-                requireActivity().runOnUiThread(() -> adapter.setMaterias(materias));
+                requireActivity().runOnUiThread(() -> {
+                    adapter.setMaterias(materias);
+                    if (materias.isEmpty()) {
+                        tvEmptyState.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                    } else {
+                        tvEmptyState.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                    }
+                });
             }
         });
     }

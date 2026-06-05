@@ -29,6 +29,8 @@ public class DocentesFragment extends Fragment implements DocenteAdapter.OnDocen
     private DocenteAdapter adapter;
     private AppDatabase db;
     private ExecutorService executorService;
+    private RecyclerView recyclerView;
+    private android.widget.TextView tvEmptyState;
 
     @Nullable
     @Override
@@ -38,7 +40,8 @@ public class DocentesFragment extends Fragment implements DocenteAdapter.OnDocen
         db = AppDatabase.getDatabase(requireContext());
         executorService = Executors.newSingleThreadExecutor();
 
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewDocentes);
+        recyclerView = view.findViewById(R.id.recyclerViewDocentes);
+        tvEmptyState = view.findViewById(R.id.tvEmptyState);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new DocenteAdapter(this);
         recyclerView.setAdapter(adapter);
@@ -55,7 +58,16 @@ public class DocentesFragment extends Fragment implements DocenteAdapter.OnDocen
         executorService.execute(() -> {
             List<Docente> docentes = db.docenteDao().getAll();
             if (getActivity() != null) {
-                getActivity().runOnUiThread(() -> adapter.setDocentes(docentes));
+                getActivity().runOnUiThread(() -> {
+                    adapter.setDocentes(docentes);
+                    if (docentes.isEmpty()) {
+                        tvEmptyState.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                    } else {
+                        tvEmptyState.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                    }
+                });
             }
         });
     }

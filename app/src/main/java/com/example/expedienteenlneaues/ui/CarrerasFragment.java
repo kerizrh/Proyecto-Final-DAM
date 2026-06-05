@@ -28,6 +28,8 @@ public class CarrerasFragment extends Fragment implements CarreraAdapter.OnCarre
     private CarreraAdapter adapter;
     private AppDatabase db;
     private ExecutorService executorService;
+    private RecyclerView recyclerView;
+    private android.widget.TextView tvEmptyState;
 
     @Nullable
     @Override
@@ -37,7 +39,8 @@ public class CarrerasFragment extends Fragment implements CarreraAdapter.OnCarre
         db = AppDatabase.getDatabase(requireContext());
         executorService = Executors.newSingleThreadExecutor();
 
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewCarreras);
+        recyclerView = view.findViewById(R.id.recyclerViewCarreras);
+        tvEmptyState = view.findViewById(R.id.tvEmptyState);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new CarreraAdapter(this);
         recyclerView.setAdapter(adapter);
@@ -54,7 +57,16 @@ public class CarrerasFragment extends Fragment implements CarreraAdapter.OnCarre
         executorService.execute(() -> {
             List<Carrera> carreras = db.carreraDao().getAll();
             if (getActivity() != null) {
-                getActivity().runOnUiThread(() -> adapter.setCarreras(carreras));
+                getActivity().runOnUiThread(() -> {
+                    adapter.setCarreras(carreras);
+                    if (carreras.isEmpty()) {
+                        tvEmptyState.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                    } else {
+                        tvEmptyState.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                    }
+                });
             }
         });
     }
