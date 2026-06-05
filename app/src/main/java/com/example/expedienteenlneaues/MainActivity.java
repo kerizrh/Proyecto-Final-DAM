@@ -8,6 +8,7 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -27,6 +28,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        // Apply Dark Mode from preferences before setting content view
+        SharedPreferences prefs = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
+        boolean isDarkMode = prefs.getBoolean("isDarkMode", false);
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -55,14 +66,41 @@ public class MainActivity extends AppCompatActivity {
         // Setup Bottom Navigation
         NavigationUI.setupWithNavController(bottomNavView, navController);
 
-        // Handle Logout in Drawer
-        navView.getMenu().findItem(R.id.nav_logout).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(@NonNull MenuItem item) {
+        // Initialize Dark Mode Checkbox state
+        MenuItem darkModeItem = navView.getMenu().findItem(R.id.nav_dark_mode);
+        darkModeItem.setChecked(isDarkMode);
+        darkModeItem.setIcon(isDarkMode ? R.drawable.ic_light_mode : R.drawable.ic_dark_mode);
+        darkModeItem.setTitle(isDarkMode ? "Modo Claro" : "Modo Oscuro");
+
+        // Handle clicks in Drawer
+        navView.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_logout) {
                 logout();
                 return true;
+            } else if (id == R.id.nav_dark_mode) {
+                boolean newMode = !item.isChecked();
+                item.setChecked(newMode);
+                item.setIcon(newMode ? R.drawable.ic_light_mode : R.drawable.ic_dark_mode);
+                item.setTitle(newMode ? "Modo Claro" : "Modo Oscuro");
+                toggleDarkMode(newMode);
+                return true;
             }
+            // Let NavigationUI handle the rest
+            return NavigationUI.onNavDestinationSelected(item, navController)
+                    || super.onOptionsItemSelected(item);
         });
+    }
+
+    private void toggleDarkMode(boolean isDarkMode) {
+        SharedPreferences prefs = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
+        prefs.edit().putBoolean("isDarkMode", isDarkMode).apply();
+        
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     @Override
