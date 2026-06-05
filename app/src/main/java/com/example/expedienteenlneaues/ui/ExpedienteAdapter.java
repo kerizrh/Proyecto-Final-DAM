@@ -3,6 +3,7 @@ package com.example.expedienteenlneaues.ui;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -83,7 +84,8 @@ public class ExpedienteAdapter extends RecyclerView.Adapter<ExpedienteAdapter.Ex
     static class ExpedienteViewHolder extends RecyclerView.ViewHolder {
         ImageView ivExpedienteFoto;
         TextView tvExpedienteNombres, tvExpedienteCarnet, tvExpedienteCarrera;
-        ImageButton btnEditExpediente, btnDeleteExpediente, btnInscribirMateria, btnVerMaterias;
+        ImageButton btnEditExpediente, btnDeleteExpediente, btnVerMaterias;
+        Button btnInscribirMateria;
 
         public ExpedienteViewHolder(@NonNull View itemView) {
             super(itemView);
