@@ -3,13 +3,13 @@ package com.example.expedienteenlneaues.data.entity;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "articulos")
-public class Articulo {
+@Entity(tableName = "materias")
+public class Materia {
     @PrimaryKey(autoGenerate = true)
     public int id;
 
+    public String codigo;
     public String nombre;
-    public String descripcion;
-    public double precio;
-    public String imagePath; // Ruta local o URI de la imagen
+    public int unidadesValorativas;
+    public String imagePath; // Ruta del logo de la facultad o materia
 }
