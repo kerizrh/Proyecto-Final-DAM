@@ -12,4 +12,8 @@
         android:id="@+id/nav_expedientes"
         android:icon="@drawable/ic_folder"
         android:title="Expedientes" />
+    <item
+        android:id="@+id/nav_docentes"
+        android:icon="@drawable/ic_badge"
+        android:title="Docentes" />
 </menu>

@@ -21,4 +21,9 @@
         android:name="com.example.expedienteenlneaues.ui.ExpedientesFragment"
         android:label="Expedientes" />
 
+    <fragment
+        android:id="@+id/nav_docentes"
+        android:name="com.example.expedienteenlneaues.ui.DocentesFragment"
+        android:label="Docentes" />
+
 </navigation>

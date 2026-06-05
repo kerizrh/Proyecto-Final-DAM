@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Pass IDs of top-level destinations
         appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_materias, R.id.nav_expedientes)
+                R.id.nav_home, R.id.nav_materias, R.id.nav_expedientes, R.id.nav_docentes)
                 .setOpenableLayout(drawerLayout)
                 .build();
 

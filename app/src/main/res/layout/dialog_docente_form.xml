@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/tvDialogTitleDocente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Añadir Docente"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="?attr/colorPrimary"
+        android:layout_marginBottom="16dp" />
+
+    <EditText
+        android:id="@+id/etEscalafon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="DUI / Escalafón (Ej. E-123456)"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/etDocenteNombres"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombres"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/etDocenteApellidos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Apellidos"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/etDocenteEspecialidad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Especialidad (Ej. Ingeniería de Software)"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:layout_marginBottom="8dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="24dp">
+
+        <Button
+            android:id="@+id/btnSelectImageDocente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Elegir Galería"
+            style="?attr/materialButtonOutlinedStyle" />
+
+        <TextView
+            android:id="@+id/tvSelectedImageDocente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Sin foto" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/btnCancelDocente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancelar"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btnSaveDocente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Guardar" />
+    </LinearLayout>
+
+</LinearLayout>
