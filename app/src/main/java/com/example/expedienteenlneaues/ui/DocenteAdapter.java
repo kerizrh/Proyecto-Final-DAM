@@ -25,6 +25,8 @@ public class DocenteAdapter extends RecyclerView.Adapter<DocenteAdapter.DocenteV
     public interface OnDocenteClickListener {
         void onEditClick(Docente docente);
         void onDeleteClick(Docente docente);
+        void onAsignarClick(Docente docente);
+        void onVerCargaClick(Docente docente);
     }
 
     public DocenteAdapter(OnDocenteClickListener listener) {
@@ -63,6 +65,8 @@ public class DocenteAdapter extends RecyclerView.Adapter<DocenteAdapter.DocenteV
 
         holder.btnEditDocente.setOnClickListener(v -> listener.onEditClick(docente));
         holder.btnDeleteDocente.setOnClickListener(v -> listener.onDeleteClick(docente));
+        holder.btnAsignarMateria.setOnClickListener(v -> listener.onAsignarClick(docente));
+        holder.btnVerCarga.setOnClickListener(v -> listener.onVerCargaClick(docente));
     }
 
     @Override
@@ -73,7 +77,7 @@ public class DocenteAdapter extends RecyclerView.Adapter<DocenteAdapter.DocenteV
     static class DocenteViewHolder extends RecyclerView.ViewHolder {
         ImageView ivDocenteFoto;
         TextView tvDocenteNombres, tvDocenteEscalafon, tvDocenteEspecialidad;
-        ImageButton btnEditDocente, btnDeleteDocente;
+        ImageButton btnEditDocente, btnDeleteDocente, btnAsignarMateria, btnVerCarga;
 
         public DocenteViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -83,6 +87,8 @@ public class DocenteAdapter extends RecyclerView.Adapter<DocenteAdapter.DocenteV
             tvDocenteEspecialidad = itemView.findViewById(R.id.tvDocenteEspecialidad);
             btnEditDocente = itemView.findViewById(R.id.btnEditDocente);
             btnDeleteDocente = itemView.findViewById(R.id.btnDeleteDocente);
+            btnAsignarMateria = itemView.findViewById(R.id.btnAsignarMateria);
+            btnVerCarga = itemView.findViewById(R.id.btnVerCarga);
         }
     }
 }

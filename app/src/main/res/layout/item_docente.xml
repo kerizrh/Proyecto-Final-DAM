@@ -55,6 +55,24 @@
         </LinearLayout>
 
         <ImageButton
+            android:id="@+id/btnAsignarMateria"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_add"
+            android:contentDescription="Asignar Materia"
+            android:padding="8dp"/>
+
+        <ImageButton
+            android:id="@+id/btnVerCarga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_agenda"
+            android:contentDescription="Ver Carga Académica"
+            android:padding="8dp"/>
+
+        <ImageButton
             android:id="@+id/btnEditDocente"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
