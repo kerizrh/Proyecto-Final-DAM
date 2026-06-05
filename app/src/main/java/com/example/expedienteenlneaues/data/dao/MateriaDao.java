@@ -26,4 +26,7 @@ public interface MateriaDao {
 
     @Query("SELECT * FROM materias WHERE id = :id")
     Materia getById(int id);
+
+    @Query("SELECT COUNT(*) FROM materias")
+    int getCount();
 }

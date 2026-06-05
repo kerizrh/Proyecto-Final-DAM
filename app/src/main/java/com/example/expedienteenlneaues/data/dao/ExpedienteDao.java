@@ -26,4 +26,7 @@ public interface ExpedienteDao {
 
     @Query("SELECT * FROM expedientes WHERE id = :id")
     Expediente getById(int id);
+
+    @Query("SELECT COUNT(*) FROM expedientes")
+    int getCount();
 }

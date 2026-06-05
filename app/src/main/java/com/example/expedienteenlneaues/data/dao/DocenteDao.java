@@ -26,4 +26,7 @@ public interface DocenteDao {
 
     @Query("SELECT * FROM docentes WHERE id = :id")
     Docente getById(int id);
+
+    @Query("SELECT COUNT(*) FROM docentes")
+    int getCount();
 }
