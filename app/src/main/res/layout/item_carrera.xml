@@ -22,7 +22,7 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_book"
+            android:src="@drawable/ic_university"
             android:contentDescription="Icono Carrera" />
 
         <LinearLayout

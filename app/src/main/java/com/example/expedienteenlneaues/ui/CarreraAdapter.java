@@ -59,11 +59,11 @@ public class CarreraAdapter extends RecyclerView.Adapter<CarreraAdapter.CarreraV
         if (carrera.fotoPath != null && !carrera.fotoPath.isEmpty()) {
             Glide.with(holder.itemView.getContext())
                     .load(carrera.fotoPath)
-                    .placeholder(R.drawable.ic_book)
-                    .error(R.drawable.ic_book)
+                    .placeholder(R.drawable.ic_university)
+                    .error(R.drawable.ic_university)
                     .into(holder.ivCarreraFoto);
         } else {
-            holder.ivCarreraFoto.setImageResource(R.drawable.ic_book);
+            holder.ivCarreraFoto.setImageResource(R.drawable.ic_university);
         }
 
         holder.itemView.setOnClickListener(v -> listener.onCarreraClick(carrera));
