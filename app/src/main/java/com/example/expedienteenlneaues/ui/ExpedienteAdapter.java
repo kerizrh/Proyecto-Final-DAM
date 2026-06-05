@@ -25,6 +25,8 @@ public class ExpedienteAdapter extends RecyclerView.Adapter<ExpedienteAdapter.Ex
     public interface OnExpedienteClickListener {
         void onEditClick(Expediente expediente);
         void onDeleteClick(Expediente expediente);
+        void onInscribirClick(Expediente expediente);
+        void onVerMateriasClick(Expediente expediente);
     }
 
     public ExpedienteAdapter(OnExpedienteClickListener listener) {
@@ -63,6 +65,8 @@ public class ExpedienteAdapter extends RecyclerView.Adapter<ExpedienteAdapter.Ex
 
         holder.btnEditExpediente.setOnClickListener(v -> listener.onEditClick(expediente));
         holder.btnDeleteExpediente.setOnClickListener(v -> listener.onDeleteClick(expediente));
+        holder.btnInscribirMateria.setOnClickListener(v -> listener.onInscribirClick(expediente));
+        holder.btnVerMaterias.setOnClickListener(v -> listener.onVerMateriasClick(expediente));
     }
 
     @Override
@@ -73,7 +77,7 @@ public class ExpedienteAdapter extends RecyclerView.Adapter<ExpedienteAdapter.Ex
     static class ExpedienteViewHolder extends RecyclerView.ViewHolder {
         ImageView ivExpedienteFoto;
         TextView tvExpedienteNombres, tvExpedienteCarnet, tvExpedienteCarrera;
-        ImageButton btnEditExpediente, btnDeleteExpediente;
+        ImageButton btnEditExpediente, btnDeleteExpediente, btnInscribirMateria, btnVerMaterias;
 
         public ExpedienteViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -83,6 +87,8 @@ public class ExpedienteAdapter extends RecyclerView.Adapter<ExpedienteAdapter.Ex
             tvExpedienteCarrera = itemView.findViewById(R.id.tvExpedienteCarrera);
             btnEditExpediente = itemView.findViewById(R.id.btnEditExpediente);
             btnDeleteExpediente = itemView.findViewById(R.id.btnDeleteExpediente);
+            btnInscribirMateria = itemView.findViewById(R.id.btnInscribirMateria);
+            btnVerMaterias = itemView.findViewById(R.id.btnVerMaterias);
         }
     }
 }

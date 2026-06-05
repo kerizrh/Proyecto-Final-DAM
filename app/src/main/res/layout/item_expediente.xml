@@ -55,6 +55,24 @@
         </LinearLayout>
 
         <ImageButton
+            android:id="@+id/btnInscribirMateria"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_add"
+            android:contentDescription="Inscribir Materia"
+            android:padding="8dp"/>
+
+        <ImageButton
+            android:id="@+id/btnVerMaterias"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_agenda"
+            android:contentDescription="Ver Materias"
+            android:padding="8dp"/>
+
+        <ImageButton
             android:id="@+id/btnEditExpediente"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
