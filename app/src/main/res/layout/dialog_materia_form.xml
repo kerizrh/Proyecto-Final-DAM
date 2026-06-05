@@ -42,15 +42,27 @@
         android:minHeight="48dp"
         android:layout_marginBottom="16dp" />
 
-    <!-- Button to select image URL simply to demonstrate integration -->
-    <EditText
-        android:id="@+id/etImageUrl"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="URL de la imagen (opcional)"
-        android:inputType="textUri"
-        android:minHeight="48dp"
-        android:layout_marginBottom="24dp" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="24dp">
+
+        <Button
+            android:id="@+id/btnSelectImageMateria"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Elegir Galería"
+            style="?attr/materialButtonOutlinedStyle" />
+
+        <TextView
+            android:id="@+id/tvSelectedImageMateria"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Sin foto" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

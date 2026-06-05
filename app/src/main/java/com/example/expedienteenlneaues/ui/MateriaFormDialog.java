@@ -11,7 +11,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Intent;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
@@ -23,6 +26,8 @@ public class MateriaFormDialog extends DialogFragment {
 
     private Materia materia;
     private OnSaveMateriaListener listener;
+    private String selectedImagePath = "";
+    private ActivityResultLauncher<String[]> photoPickerLauncher;
 
     public interface OnSaveMateriaListener {
         void onSaveMateria(Materia materia);
@@ -31,6 +36,30 @@ public class MateriaFormDialog extends DialogFragment {
     public MateriaFormDialog(Materia materia, OnSaveMateriaListener listener) {
         this.materia = materia;
         this.listener = listener;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        photoPickerLauncher = registerForActivityResult(
+                new ActivityResultContracts.OpenDocument(),
+                uri -> {
+                    if (uri != null) {
+                        try {
+                            requireActivity().getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        } catch (SecurityException e) {
+                            e.printStackTrace();
+                        }
+                        selectedImagePath = uri.toString();
+                        if (getView() != null) {
+                            TextView tvSelectedImage = getView().findViewById(R.id.tvSelectedImageMateria);
+                            if (tvSelectedImage != null) {
+                                tvSelectedImage.setText("Foto adjunta ✓");
+                            }
+                        }
+                    }
+                }
+        );
     }
 
     @Nullable
@@ -46,7 +75,8 @@ public class MateriaFormDialog extends DialogFragment {
         EditText etCodigo = view.findViewById(R.id.etCodigo);
         EditText etNombre = view.findViewById(R.id.etNombre);
         EditText etUVs = view.findViewById(R.id.etUVs);
-        EditText etImageUrl = view.findViewById(R.id.etImageUrl);
+        Button btnSelectImage = view.findViewById(R.id.btnSelectImageMateria);
+        TextView tvSelectedImage = view.findViewById(R.id.tvSelectedImageMateria);
         Button btnCancel = view.findViewById(R.id.btnCancel);
         Button btnSave = view.findViewById(R.id.btnSave);
 
@@ -55,10 +85,15 @@ public class MateriaFormDialog extends DialogFragment {
             etCodigo.setText(materia.codigo);
             etNombre.setText(materia.nombre);
             etUVs.setText(String.valueOf(materia.unidadesValorativas));
-            etImageUrl.setText(materia.imagePath);
+            if (materia.imagePath != null && !materia.imagePath.isEmpty()) {
+                selectedImagePath = materia.imagePath;
+                tvSelectedImage.setText("Foto adjunta ✓");
+            }
         } else {
             tvTitle.setText("Añadir Materia");
         }
+
+        btnSelectImage.setOnClickListener(v -> photoPickerLauncher.launch(new String[]{"image/*"}));
 
         btnCancel.setOnClickListener(v -> dismiss());
 
@@ -66,7 +101,6 @@ public class MateriaFormDialog extends DialogFragment {
             String codigo = etCodigo.getText().toString().trim();
             String nombre = etNombre.getText().toString().trim();
             String uvsStr = etUVs.getText().toString().trim();
-            String imagePath = etImageUrl.getText().toString().trim();
 
             if (codigo.isEmpty() || nombre.isEmpty() || uvsStr.isEmpty()) {
                 Toast.makeText(getContext(), "Código, Nombre y UVs son obligatorios", Toast.LENGTH_SHORT).show();
@@ -87,7 +121,7 @@ public class MateriaFormDialog extends DialogFragment {
             materia.codigo = codigo;
             materia.nombre = nombre;
             materia.unidadesValorativas = uvs;
-            materia.imagePath = imagePath;
+            materia.imagePath = selectedImagePath;
 
             listener.onSaveMateria(materia);
             dismiss();

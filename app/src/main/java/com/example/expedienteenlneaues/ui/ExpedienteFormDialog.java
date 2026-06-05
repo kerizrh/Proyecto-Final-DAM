@@ -10,7 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Intent;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
@@ -22,6 +25,8 @@ public class ExpedienteFormDialog extends DialogFragment {
 
     private Expediente expediente;
     private OnSaveExpedienteListener listener;
+    private String selectedImagePath = "";
+    private ActivityResultLauncher<String[]> photoPickerLauncher;
 
     public interface OnSaveExpedienteListener {
         void onSaveExpediente(Expediente expediente);
@@ -30,6 +35,30 @@ public class ExpedienteFormDialog extends DialogFragment {
     public ExpedienteFormDialog(Expediente expediente, OnSaveExpedienteListener listener) {
         this.expediente = expediente;
         this.listener = listener;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        photoPickerLauncher = registerForActivityResult(
+                new ActivityResultContracts.OpenDocument(),
+                uri -> {
+                    if (uri != null) {
+                        try {
+                            requireActivity().getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        } catch (SecurityException e) {
+                            e.printStackTrace();
+                        }
+                        selectedImagePath = uri.toString();
+                        if (getView() != null) {
+                            TextView tvSelectedImage = getView().findViewById(R.id.tvSelectedImageExpediente);
+                            if (tvSelectedImage != null) {
+                                tvSelectedImage.setText("Foto adjunta ✓");
+                            }
+                        }
+                    }
+                }
+        );
     }
 
     @Nullable
@@ -46,7 +75,8 @@ public class ExpedienteFormDialog extends DialogFragment {
         EditText etNombres = view.findViewById(R.id.etNombres);
         EditText etApellidos = view.findViewById(R.id.etApellidos);
         EditText etCarrera = view.findViewById(R.id.etCarrera);
-        EditText etImageUrl = view.findViewById(R.id.etImageUrlExpediente);
+        Button btnSelectImage = view.findViewById(R.id.btnSelectImageExpediente);
+        TextView tvSelectedImage = view.findViewById(R.id.tvSelectedImageExpediente);
         Button btnCancel = view.findViewById(R.id.btnCancelExpediente);
         Button btnSave = view.findViewById(R.id.btnSaveExpediente);
 
@@ -56,10 +86,15 @@ public class ExpedienteFormDialog extends DialogFragment {
             etNombres.setText(expediente.nombres);
             etApellidos.setText(expediente.apellidos);
             etCarrera.setText(expediente.carrera);
-            etImageUrl.setText(expediente.imagePath);
+            if (expediente.imagePath != null && !expediente.imagePath.isEmpty()) {
+                selectedImagePath = expediente.imagePath;
+                tvSelectedImage.setText("Foto adjunta ✓");
+            }
         } else {
             tvTitle.setText("Añadir Expediente");
         }
+
+        btnSelectImage.setOnClickListener(v -> photoPickerLauncher.launch(new String[]{"image/*"}));
 
         btnCancel.setOnClickListener(v -> dismiss());
 
@@ -68,7 +103,6 @@ public class ExpedienteFormDialog extends DialogFragment {
             String nombres = etNombres.getText().toString().trim();
             String apellidos = etApellidos.getText().toString().trim();
             String carrera = etCarrera.getText().toString().trim();
-            String imagePath = etImageUrl.getText().toString().trim();
 
             if (carnet.isEmpty() || nombres.isEmpty() || apellidos.isEmpty() || carrera.isEmpty()) {
                 Toast.makeText(getContext(), "Todos los campos de texto son obligatorios", Toast.LENGTH_SHORT).show();
@@ -82,7 +116,7 @@ public class ExpedienteFormDialog extends DialogFragment {
             expediente.nombres = nombres;
             expediente.apellidos = apellidos;
             expediente.carrera = carrera;
-            expediente.imagePath = imagePath;
+            expediente.imagePath = selectedImagePath;
 
             listener.onSaveExpediente(expediente);
             dismiss();
