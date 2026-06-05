@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/tvDialogTitleExpediente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Añadir Expediente"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="?attr/colorPrimary"
+        android:layout_marginBottom="16dp" />
+
+    <EditText
+        android:id="@+id/etCarnet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Carnet (Ej. AA12345)"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/etNombres"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombres"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/etApellidos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Apellidos"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/etCarrera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Carrera"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/etImageUrlExpediente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="URL de la foto (opcional)"
+        android:inputType="textUri"
+        android:minHeight="48dp"
+        android:layout_marginBottom="24dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/btnCancelExpediente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancelar"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btnSaveExpediente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Guardar" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -11,7 +11,7 @@
             android:title="Pensum" />
         <item
             android:id="@+id/nav_expedientes"
-            android:icon="@android:drawable/ic_menu_manage"
+            android:icon="@drawable/ic_folder"
             android:title="Expedientes" />
     </group>
     
