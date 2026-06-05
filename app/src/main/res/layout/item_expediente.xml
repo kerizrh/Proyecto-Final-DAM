@@ -21,7 +21,7 @@
             android:layout_height="64dp"
             android:scaleType="centerCrop"
             android:contentDescription="Foto del Estudiante"
-            app:srcCompat="@drawable/ic_folder" />
+            app:srcCompat="@drawable/ic_person" />
 
         <LinearLayout
             android:layout_width="0dp"

@@ -56,11 +56,11 @@ public class ExpedienteAdapter extends RecyclerView.Adapter<ExpedienteAdapter.Ex
         if (expediente.imagePath != null && !expediente.imagePath.isEmpty()) {
             Glide.with(holder.itemView.getContext())
                     .load(expediente.imagePath)
-                    .placeholder(R.drawable.ic_folder)
-                    .error(R.drawable.ic_folder)
+                    .placeholder(R.drawable.ic_person)
+                    .error(R.drawable.ic_person)
                     .into(holder.ivExpedienteFoto);
         } else {
-            holder.ivExpedienteFoto.setImageResource(R.drawable.ic_folder);
+            holder.ivExpedienteFoto.setImageResource(R.drawable.ic_person);
         }
 
         holder.btnEditExpediente.setOnClickListener(v -> listener.onEditClick(expediente));
