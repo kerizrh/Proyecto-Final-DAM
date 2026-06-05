@@ -3,7 +3,15 @@ package com.example.expedienteenlneaues.data.entity;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "expedientes")
+import androidx.room.ForeignKey;
+import androidx.room.Index;
+
+@Entity(tableName = "expedientes",
+        foreignKeys = @ForeignKey(entity = Carrera.class,
+                parentColumns = "id",
+                childColumns = "carreraId",
+                onDelete = ForeignKey.CASCADE),
+        indices = {@Index("carreraId")})
 public class Expediente {
     @PrimaryKey(autoGenerate = true)
     public int id;
@@ -11,6 +19,6 @@ public class Expediente {
     public String carnet;
     public String nombres;
     public String apellidos;
-    public String carrera;
-    public String imagePath; // Ruta de la foto
+    public String fotoPath;
+    public int carreraId;
 }

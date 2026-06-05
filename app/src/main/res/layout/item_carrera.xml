@@ -18,11 +18,12 @@
         android:gravity="center_vertical">
 
         <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:id="@+id/ivCarreraFoto"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_book"
-            android:contentDescription="Icono Carrera"
-            app:tint="?attr/colorPrimary" />
+            android:contentDescription="Icono Carrera" />
 
         <LinearLayout
             android:layout_width="0dp"

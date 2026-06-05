@@ -16,6 +16,15 @@
         android:layout_marginBottom="16dp" />
 
     <EditText
+        android:id="@+id/etCarreraCodigo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Código (Ej. L505)"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:layout_marginBottom="16dp" />
+
+    <EditText
         android:id="@+id/etCarreraNombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,7 +40,30 @@
         android:hint="Facultad (Ej. Ingeniería y Arquitectura)"
         android:inputType="text"
         android:minHeight="48dp"
-        android:layout_marginBottom="24dp" />
+        android:layout_marginBottom="16dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="24dp">
+
+        <Button
+            android:id="@+id/btnSelectImageCarrera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Adjuntar Logo"
+            style="?attr/materialButtonOutlinedStyle" />
+
+        <TextView
+            android:id="@+id/tvSelectedImageCarrera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sin logo"
+            android:layout_marginStart="16dp"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

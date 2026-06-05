@@ -15,13 +15,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.expedienteenlneaues.R;
 import com.example.expedienteenlneaues.data.AppDatabase;
+import com.example.expedienteenlneaues.data.entity.Carrera;
 import com.example.expedienteenlneaues.data.entity.Expediente;
 import com.example.expedienteenlneaues.data.entity.Inscripcion;
 import com.example.expedienteenlneaues.data.entity.Materia;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -55,29 +57,43 @@ public class EstudiantesFragment extends Fragment implements ExpedienteAdapter.O
     private void loadExpedientes() {
         executorService.execute(() -> {
             List<Expediente> expedientes = db.expedienteDao().getAll();
+            List<Carrera> carreras = db.carreraDao().getAll();
+            Map<Integer, String> carrerasMap = new HashMap<>();
+            for (Carrera c : carreras) {
+                carrerasMap.put(c.id, c.nombre);
+            }
             if (getActivity() != null) {
-                getActivity().runOnUiThread(() -> adapter.setExpedientes(expedientes));
+                getActivity().runOnUiThread(() -> adapter.setExpedientes(expedientes, carrerasMap));
             }
         });
     }
 
     private void showExpedienteDialog(Expediente expedienteToEdit) {
-        ExpedienteFormDialog dialog = new ExpedienteFormDialog(expedienteToEdit, expediente -> {
-            executorService.execute(() -> {
-                if (expedienteToEdit == null) {
-                    db.expedienteDao().insert(expediente);
-                } else {
-                    db.expedienteDao().update(expediente);
-                }
-                loadExpedientes();
-                if (getActivity() != null) {
-                    getActivity().runOnUiThread(() -> 
-                            Toast.makeText(getContext(), "Expediente guardado", Toast.LENGTH_SHORT).show()
-                    );
-                }
-            });
+        executorService.execute(() -> {
+            List<Carrera> carrerasDisponibles = db.carreraDao().getAll();
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    if (carrerasDisponibles.isEmpty()) {
+                        Toast.makeText(getContext(), "Crea primero una Carrera para inscribir estudiantes", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    ExpedienteFormDialog dialog = new ExpedienteFormDialog(expedienteToEdit, carrerasDisponibles, expediente -> {
+                        executorService.execute(() -> {
+                            if (expedienteToEdit == null) {
+                                db.expedienteDao().insert(expediente);
+                            } else {
+                                db.expedienteDao().update(expediente);
+                            }
+                            loadExpedientes();
+                            if (getActivity() != null) {
+                                getActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Expediente guardado", Toast.LENGTH_SHORT).show());
+                            }
+                        });
+                    });
+                    dialog.show(getChildFragmentManager(), "ExpedienteFormDialog");
+                });
+            }
         });
-        dialog.show(getChildFragmentManager(), "ExpedienteFormDialog");
     }
 
     @Override
@@ -108,19 +124,19 @@ public class EstudiantesFragment extends Fragment implements ExpedienteAdapter.O
     @Override
     public void onInscribirClick(Expediente expediente) {
         executorService.execute(() -> {
-            List<Materia> todasLasMaterias = db.materiaDao().getAll();
-            if (todasLasMaterias.isEmpty()) {
+            List<Materia> materiasDisponibles = db.materiaDao().getByCarrera(expediente.carreraId);
+            if (materiasDisponibles.isEmpty()) {
                 if (getActivity() != null) {
                     getActivity().runOnUiThread(() -> 
-                        Toast.makeText(getContext(), "No hay materias disponibles en el pensum", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(getContext(), "No hay materias en el pensum de esta carrera", Toast.LENGTH_SHORT).show()
                     );
                 }
                 return;
             }
 
-            String[] nombresMaterias = new String[todasLasMaterias.size()];
-            for (int i = 0; i < todasLasMaterias.size(); i++) {
-                nombresMaterias[i] = todasLasMaterias.get(i).nombre + " (" + todasLasMaterias.get(i).codigo + ")";
+            String[] nombresMaterias = new String[materiasDisponibles.size()];
+            for (int i = 0; i < materiasDisponibles.size(); i++) {
+                nombresMaterias[i] = materiasDisponibles.get(i).nombre + " (" + materiasDisponibles.get(i).codigo + ")";
             }
 
             if (getActivity() != null) {
@@ -128,7 +144,7 @@ public class EstudiantesFragment extends Fragment implements ExpedienteAdapter.O
                     new AlertDialog.Builder(requireContext())
                             .setTitle("Inscribir Materia a " + expediente.nombres)
                             .setItems(nombresMaterias, (dialog, which) -> {
-                                Materia seleccionada = todasLasMaterias.get(which);
+                                Materia seleccionada = materiasDisponibles.get(which);
                                 executorService.execute(() -> {
                                     Inscripcion nuevaInscripcion = new Inscripcion();
                                     nuevaInscripcion.expedienteId = expediente.id;

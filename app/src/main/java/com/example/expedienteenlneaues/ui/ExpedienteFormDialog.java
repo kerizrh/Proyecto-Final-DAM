@@ -18,12 +18,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
 import com.example.expedienteenlneaues.R;
 import com.example.expedienteenlneaues.data.entity.Expediente;
+import com.example.expedienteenlneaues.data.entity.Carrera;
+
+import java.util.List;
+import java.util.ArrayList;
 
 public class ExpedienteFormDialog extends DialogFragment {
 
     private Expediente expediente;
+    private List<Carrera> carreras;
     private OnSaveExpedienteListener listener;
     private String selectedImagePath = "";
     private ActivityResultLauncher<String[]> photoPickerLauncher;
@@ -32,8 +40,9 @@ public class ExpedienteFormDialog extends DialogFragment {
         void onSaveExpediente(Expediente expediente);
     }
 
-    public ExpedienteFormDialog(Expediente expediente, OnSaveExpedienteListener listener) {
+    public ExpedienteFormDialog(Expediente expediente, List<Carrera> carreras, OnSaveExpedienteListener listener) {
         this.expediente = expediente;
+        this.carreras = carreras;
         this.listener = listener;
     }
 
@@ -74,20 +83,35 @@ public class ExpedienteFormDialog extends DialogFragment {
         EditText etCarnet = view.findViewById(R.id.etCarnet);
         EditText etNombres = view.findViewById(R.id.etNombres);
         EditText etApellidos = view.findViewById(R.id.etApellidos);
-        EditText etCarrera = view.findViewById(R.id.etCarrera);
+        Spinner spCarrera = view.findViewById(R.id.spCarrera);
         Button btnSelectImage = view.findViewById(R.id.btnSelectImageExpediente);
         TextView tvSelectedImage = view.findViewById(R.id.tvSelectedImageExpediente);
         Button btnCancel = view.findViewById(R.id.btnCancelExpediente);
         Button btnSave = view.findViewById(R.id.btnSaveExpediente);
+
+        List<String> nombresCarreras = new ArrayList<>();
+        for (Carrera c : carreras) {
+            nombresCarreras.add(c.nombre);
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, nombresCarreras);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spCarrera.setAdapter(spinnerAdapter);
 
         if (expediente != null) {
             tvTitle.setText("Editar Expediente");
             etCarnet.setText(expediente.carnet);
             etNombres.setText(expediente.nombres);
             etApellidos.setText(expediente.apellidos);
-            etCarrera.setText(expediente.carrera);
-            if (expediente.imagePath != null && !expediente.imagePath.isEmpty()) {
-                selectedImagePath = expediente.imagePath;
+            
+            for (int i = 0; i < carreras.size(); i++) {
+                if (carreras.get(i).id == expediente.carreraId) {
+                    spCarrera.setSelection(i);
+                    break;
+                }
+            }
+
+            if (expediente.fotoPath != null && !expediente.fotoPath.isEmpty()) {
+                selectedImagePath = expediente.fotoPath;
                 tvSelectedImage.setText("Foto adjunta ✓");
             }
         } else {
@@ -102,9 +126,13 @@ public class ExpedienteFormDialog extends DialogFragment {
             String carnet = etCarnet.getText().toString().trim();
             String nombres = etNombres.getText().toString().trim();
             String apellidos = etApellidos.getText().toString().trim();
-            String carrera = etCarrera.getText().toString().trim();
+            
+            if (carreras.isEmpty()) {
+                Toast.makeText(getContext(), "Debe existir al menos una carrera para matricular a un estudiante", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-            if (carnet.isEmpty() || nombres.isEmpty() || apellidos.isEmpty() || carrera.isEmpty()) {
+            if (carnet.isEmpty() || nombres.isEmpty() || apellidos.isEmpty()) {
                 Toast.makeText(getContext(), "Todos los campos de texto son obligatorios", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -115,8 +143,8 @@ public class ExpedienteFormDialog extends DialogFragment {
             expediente.carnet = carnet;
             expediente.nombres = nombres;
             expediente.apellidos = apellidos;
-            expediente.carrera = carrera;
-            expediente.imagePath = selectedImagePath;
+            expediente.carreraId = carreras.get(spCarrera.getSelectedItemPosition()).id;
+            expediente.fotoPath = selectedImagePath;
 
             listener.onSaveExpediente(expediente);
             dismiss();

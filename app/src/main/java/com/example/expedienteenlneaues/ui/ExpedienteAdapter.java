@@ -15,11 +15,14 @@ import com.example.expedienteenlneaues.R;
 import com.example.expedienteenlneaues.data.entity.Expediente;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ExpedienteAdapter extends RecyclerView.Adapter<ExpedienteAdapter.ExpedienteViewHolder> {
 
     private List<Expediente> expedientes = new ArrayList<>();
+    private Map<Integer, String> carrerasMap = new HashMap<>();
     private final OnExpedienteClickListener listener;
 
     public interface OnExpedienteClickListener {
@@ -33,8 +36,9 @@ public class ExpedienteAdapter extends RecyclerView.Adapter<ExpedienteAdapter.Ex
         this.listener = listener;
     }
 
-    public void setExpedientes(List<Expediente> expedientes) {
+    public void setExpedientes(List<Expediente> expedientes, Map<Integer, String> carrerasMap) {
         this.expedientes = expedientes;
+        this.carrerasMap = carrerasMap;
         notifyDataSetChanged();
     }
 
@@ -51,11 +55,13 @@ public class ExpedienteAdapter extends RecyclerView.Adapter<ExpedienteAdapter.Ex
         Expediente expediente = expedientes.get(position);
         holder.tvExpedienteNombres.setText(expediente.nombres + " " + expediente.apellidos);
         holder.tvExpedienteCarnet.setText("Carnet: " + expediente.carnet);
-        holder.tvExpedienteCarrera.setText(expediente.carrera);
+        
+        String nombreCarrera = carrerasMap.containsKey(expediente.carreraId) ? carrerasMap.get(expediente.carreraId) : "Carrera no asignada";
+        holder.tvExpedienteCarrera.setText(nombreCarrera);
 
-        if (expediente.imagePath != null && !expediente.imagePath.isEmpty()) {
+        if (expediente.fotoPath != null && !expediente.fotoPath.isEmpty()) {
             Glide.with(holder.itemView.getContext())
-                    .load(expediente.imagePath)
+                    .load(expediente.fotoPath)
                     .placeholder(R.drawable.ic_person)
                     .error(R.drawable.ic_person)
                     .into(holder.ivExpedienteFoto);

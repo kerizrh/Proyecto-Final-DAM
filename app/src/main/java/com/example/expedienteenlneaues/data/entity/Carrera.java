@@ -8,6 +8,8 @@ public class Carrera {
     @PrimaryKey(autoGenerate = true)
     public int id;
 
+    public String codigo;
     public String nombre;
     public String facultad;
+    public String fotoPath;
 }
