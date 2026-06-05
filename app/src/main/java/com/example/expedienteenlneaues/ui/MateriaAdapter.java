@@ -54,11 +54,11 @@ public class MateriaAdapter extends RecyclerView.Adapter<MateriaAdapter.MateriaV
         if (materia.imagePath != null && !materia.imagePath.isEmpty()) {
             Glide.with(holder.itemView.getContext())
                     .load(materia.imagePath)
-                    .placeholder(android.R.drawable.ic_menu_gallery)
-                    .error(android.R.drawable.ic_menu_gallery)
+                    .placeholder(R.drawable.ic_book)
+                    .error(R.drawable.ic_book)
                     .into(holder.ivMateriaLogo);
         } else {
-            holder.ivMateriaLogo.setImageResource(android.R.drawable.ic_menu_gallery);
+            holder.ivMateriaLogo.setImageResource(R.drawable.ic_book);
         }
 
         holder.btnEditMateria.setOnClickListener(v -> listener.onEditClick(materia));
