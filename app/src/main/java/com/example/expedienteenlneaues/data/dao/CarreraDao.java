@@ -26,4 +26,7 @@ public interface CarreraDao {
 
     @Query("SELECT * FROM carreras WHERE id = :id")
     Carrera getById(int id);
+
+    @Query("SELECT COUNT(*) FROM carreras")
+    int getCount();
 }

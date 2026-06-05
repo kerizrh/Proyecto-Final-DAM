@@ -20,7 +20,7 @@ public class HomeFragment extends Fragment {
 
     private AppDatabase db;
     private ExecutorService executorService;
-    private TextView tvCountExpedientes, tvCountDocentes, tvCountMaterias;
+    private TextView tvCountCarreras, tvCountExpedientes, tvCountDocentes, tvCountMaterias;
 
     @Nullable
     @Override
@@ -30,6 +30,7 @@ public class HomeFragment extends Fragment {
         db = AppDatabase.getDatabase(requireContext());
         executorService = Executors.newSingleThreadExecutor();
 
+        tvCountCarreras = view.findViewById(R.id.tvCountCarreras);
         tvCountExpedientes = view.findViewById(R.id.tvCountExpedientes);
         tvCountDocentes = view.findViewById(R.id.tvCountDocentes);
         tvCountMaterias = view.findViewById(R.id.tvCountMaterias);
@@ -41,12 +42,14 @@ public class HomeFragment extends Fragment {
 
     private void loadStatistics() {
         executorService.execute(() -> {
+            int countCarreras = db.carreraDao().getCount();
             int countExpedientes = db.expedienteDao().getCount();
             int countDocentes = db.docenteDao().getCount();
             int countMaterias = db.materiaDao().getCount();
 
             if (getActivity() != null) {
                 getActivity().runOnUiThread(() -> {
+                    tvCountCarreras.setText(String.valueOf(countCarreras));
                     tvCountExpedientes.setText(String.valueOf(countExpedientes));
                     tvCountDocentes.setText(String.valueOf(countDocentes));
                     tvCountMaterias.setText(String.valueOf(countMaterias));
