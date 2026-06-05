@@ -2,4 +2,27 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <!-- Light Theme Colors -->
+    <color name="md_theme_light_primary">#B71C1C</color>
+    <color name="md_theme_light_onPrimary">#FFFFFF</color>
+    <color name="md_theme_light_primaryContainer">#FFDAD5</color>
+    <color name="md_theme_light_onPrimaryContainer">#410001</color>
+    <color name="md_theme_light_secondary">#775651</color>
+    <color name="md_theme_light_onSecondary">#FFFFFF</color>
+    <color name="md_theme_light_secondaryContainer">#FFDAD5</color>
+    <color name="md_theme_light_onSecondaryContainer">#2C1512</color>
+    <color name="md_theme_light_background">#FFFBFF</color>
+    <color name="md_theme_light_onBackground">#201A19</color>
+
+    <!-- Dark Theme Colors -->
+    <color name="md_theme_dark_primary">#FFB4A9</color>
+    <color name="md_theme_dark_onPrimary">#690002</color>
+    <color name="md_theme_dark_primaryContainer">#930006</color>
+    <color name="md_theme_dark_onPrimaryContainer">#FFDAD5</color>
+    <color name="md_theme_dark_secondary">#E7BDB6</color>
+    <color name="md_theme_dark_onSecondary">#442925</color>
+    <color name="md_theme_dark_secondaryContainer">#5D3F3B</color>
+    <color name="md_theme_dark_onSecondaryContainer">#FFDAD5</color>
+    <color name="md_theme_dark_background">#201A19</color>
+    <color name="md_theme_dark_onBackground">#EDE0DD</color>
 </resources>
