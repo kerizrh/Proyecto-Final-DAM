@@ -24,6 +24,9 @@ public interface MateriaDao {
     @Query("SELECT * FROM materias ORDER BY nombre ASC")
     List<Materia> getAll();
 
+    @Query("SELECT * FROM materias WHERE carreraId = :carreraId ORDER BY nombre ASC")
+    List<Materia> getByCarrera(int carreraId);
+
     @Query("SELECT * FROM materias WHERE id = :id")
     Materia getById(int id);
 

@@ -27,11 +27,18 @@ public class MateriasFragment extends Fragment implements MateriaAdapter.OnMater
     private MateriaAdapter adapter;
     private AppDatabase db;
     private ExecutorService executorService;
+    private int carreraId = -1;
+    private String carreraNombre = "";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_materias, container, false);
+
+        if (getArguments() != null) {
+            carreraId = getArguments().getInt("carreraId", -1);
+            carreraNombre = getArguments().getString("carreraNombre", "");
+        }
 
         db = AppDatabase.getDatabase(requireContext());
         executorService = Executors.newSingleThreadExecutor();
@@ -50,14 +57,17 @@ public class MateriasFragment extends Fragment implements MateriaAdapter.OnMater
     }
 
     private void loadMaterias() {
+        if (carreraId == -1) return;
         executorService.execute(() -> {
-            List<Materia> materias = db.materiaDao().getAll();
-            requireActivity().runOnUiThread(() -> adapter.setMaterias(materias));
+            List<Materia> materias = db.materiaDao().getByCarrera(carreraId);
+            if (getActivity() != null) {
+                requireActivity().runOnUiThread(() -> adapter.setMaterias(materias));
+            }
         });
     }
 
     private void showMateriaDialog(Materia materiaToEdit) {
-        MateriaFormDialog dialog = new MateriaFormDialog(materiaToEdit, materia -> {
+        MateriaFormDialog dialog = new MateriaFormDialog(materiaToEdit, carreraId, materia -> {
             executorService.execute(() -> {
                 if (materiaToEdit == null) {
                     db.materiaDao().insert(materia);

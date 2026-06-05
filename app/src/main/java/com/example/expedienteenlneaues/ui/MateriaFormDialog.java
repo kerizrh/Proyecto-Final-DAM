@@ -25,6 +25,7 @@ import com.example.expedienteenlneaues.data.entity.Materia;
 public class MateriaFormDialog extends DialogFragment {
 
     private Materia materia;
+    private int carreraId;
     private OnSaveMateriaListener listener;
     private String selectedImagePath = "";
     private ActivityResultLauncher<String[]> photoPickerLauncher;
@@ -33,8 +34,9 @@ public class MateriaFormDialog extends DialogFragment {
         void onSaveMateria(Materia materia);
     }
 
-    public MateriaFormDialog(Materia materia, OnSaveMateriaListener listener) {
+    public MateriaFormDialog(Materia materia, int carreraId, OnSaveMateriaListener listener) {
         this.materia = materia;
+        this.carreraId = carreraId;
         this.listener = listener;
     }
 
@@ -117,6 +119,7 @@ public class MateriaFormDialog extends DialogFragment {
 
             if (materia == null) {
                 materia = new Materia();
+                materia.carreraId = this.carreraId;
             }
             materia.codigo = codigo;
             materia.nombre = nombre;

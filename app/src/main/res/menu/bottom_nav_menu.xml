@@ -5,15 +5,11 @@
         android:icon="@drawable/ic_home"
         android:title="Inicio" />
     <item
-        android:id="@+id/nav_materias"
+        android:id="@+id/nav_carreras"
         android:icon="@drawable/ic_book"
-        android:title="Pensum" />
+        android:title="Carreras" />
     <item
         android:id="@+id/nav_expedientes"
         android:icon="@drawable/ic_folder"
         android:title="Expedientes" />
-    <item
-        android:id="@+id/nav_docentes"
-        android:icon="@drawable/ic_badge"
-        android:title="Docentes" />
 </menu>
