@@ -3,6 +3,7 @@ package com.example.expedienteenlneaues.ui;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -77,7 +78,8 @@ public class DocenteAdapter extends RecyclerView.Adapter<DocenteAdapter.DocenteV
     static class DocenteViewHolder extends RecyclerView.ViewHolder {
         ImageView ivDocenteFoto;
         TextView tvDocenteNombres, tvDocenteEscalafon, tvDocenteEspecialidad;
-        ImageButton btnEditDocente, btnDeleteDocente, btnAsignarMateria, btnVerCarga;
+        ImageButton btnEditDocente, btnDeleteDocente, btnVerCarga;
+        Button btnAsignarMateria;
 
         public DocenteViewHolder(@NonNull View itemView) {
             super(itemView);
