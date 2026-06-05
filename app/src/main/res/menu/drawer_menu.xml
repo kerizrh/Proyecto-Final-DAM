@@ -3,12 +3,12 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@android:drawable/ic_menu_compass"
+            android:icon="@drawable/ic_home"
             android:title="Inicio" />
         <item
             android:id="@+id/nav_materias"
-            android:icon="@android:drawable/ic_menu_gallery"
-            android:title="Materias" />
+            android:icon="@drawable/ic_book"
+            android:title="Pensum" />
         <item
             android:id="@+id/nav_expedientes"
             android:icon="@android:drawable/ic_menu_manage"

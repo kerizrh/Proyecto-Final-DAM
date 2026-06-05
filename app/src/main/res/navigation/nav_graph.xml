@@ -14,7 +14,7 @@
     <fragment
         android:id="@+id/nav_materias"
         android:name="com.example.expedienteenlneaues.ui.MateriasFragment"
-        android:label="Catálogo de Materias" />
+        android:label="Pensum" />
 
     <fragment
         android:id="@+id/nav_expedientes"
