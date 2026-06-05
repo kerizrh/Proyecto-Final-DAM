@@ -3,6 +3,7 @@ package com.example.expedienteenlneaues.ui;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -66,7 +67,7 @@ public class CarreraAdapter extends RecyclerView.Adapter<CarreraAdapter.CarreraV
             holder.ivCarreraFoto.setImageResource(R.drawable.ic_university);
         }
 
-        holder.itemView.setOnClickListener(v -> listener.onCarreraClick(carrera));
+        holder.btnVerPensum.setOnClickListener(v -> listener.onCarreraClick(carrera));
         holder.btnEditCarrera.setOnClickListener(v -> listener.onEditClick(carrera));
         holder.btnDeleteCarrera.setOnClickListener(v -> listener.onDeleteClick(carrera));
     }
@@ -80,6 +81,7 @@ public class CarreraAdapter extends RecyclerView.Adapter<CarreraAdapter.CarreraV
         ImageView ivCarreraFoto;
         TextView tvCarreraNombre, tvCarreraFacultad;
         ImageButton btnEditCarrera, btnDeleteCarrera;
+        Button btnVerPensum;
 
         public CarreraViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -88,6 +90,7 @@ public class CarreraAdapter extends RecyclerView.Adapter<CarreraAdapter.CarreraV
             tvCarreraFacultad = itemView.findViewById(R.id.tvCarreraFacultad);
             btnEditCarrera = itemView.findViewById(R.id.btnEditCarrera);
             btnDeleteCarrera = itemView.findViewById(R.id.btnDeleteCarrera);
+            btnVerPensum = itemView.findViewById(R.id.btnVerPensum);
         }
     }
 }
