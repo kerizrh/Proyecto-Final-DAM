@@ -13,7 +13,7 @@
         android:text="Añadir Materia"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="?attr/colorPrimary"
+        android:textColor="?attr/colorTertiary"
         android:layout_marginBottom="16dp" />
 
     <EditText
@@ -52,10 +52,11 @@
 
         <Button
             android:id="@+id/btnSelectImageMateria"
+            style="?attr/materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Elegir Galería"
-            style="?attr/materialButtonOutlinedStyle" />
+            android:textColor="?attr/colorTertiary" />
 
         <TextView
             android:id="@+id/tvSelectedImageMateria"
@@ -73,11 +74,12 @@
 
         <Button
             android:id="@+id/btnCancel"
+            style="?attr/materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:text="Cancelar"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_marginEnd="8dp" />
+            android:textColor="?attr/colorTertiary" />
 
         <Button
             android:id="@+id/btnSave"
