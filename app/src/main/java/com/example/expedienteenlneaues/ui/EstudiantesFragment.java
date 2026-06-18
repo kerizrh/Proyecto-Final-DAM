@@ -161,11 +161,15 @@ public class EstudiantesFragment extends Fragment implements ExpedienteAdapter.O
                                     Inscripcion nuevaInscripcion = new Inscripcion();
                                     nuevaInscripcion.expedienteId = expediente.id;
                                     nuevaInscripcion.materiaId = seleccionada.id;
-                                    db.inscripcionDao().insert(nuevaInscripcion);
+                                    long id = db.inscripcionDao().insert(nuevaInscripcion);
                                     if (getActivity() != null) {
-                                        getActivity().runOnUiThread(() -> 
-                                            Toast.makeText(getContext(), "Materia inscrita: " + seleccionada.nombre, Toast.LENGTH_SHORT).show()
-                                        );
+                                        getActivity().runOnUiThread(() -> {
+                                            if (id != -1) {
+                                                Toast.makeText(getContext(), "Materia inscrita: " + seleccionada.nombre, Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(getContext(), "La materia ya está inscrita para este estudiante", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                                     }
                                 });
                             })

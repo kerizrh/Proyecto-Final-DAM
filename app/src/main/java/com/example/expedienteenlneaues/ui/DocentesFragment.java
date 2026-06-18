@@ -144,11 +144,15 @@ public class DocentesFragment extends Fragment implements DocenteAdapter.OnDocen
                                     Asignacion nuevaAsignacion = new Asignacion();
                                     nuevaAsignacion.docenteId = docente.id;
                                     nuevaAsignacion.materiaId = seleccionada.id;
-                                    db.asignacionDao().insert(nuevaAsignacion);
+                                    long id = db.asignacionDao().insert(nuevaAsignacion);
                                     if (getActivity() != null) {
-                                        getActivity().runOnUiThread(() -> 
-                                            Toast.makeText(getContext(), "Materia asignada: " + seleccionada.nombre, Toast.LENGTH_SHORT).show()
-                                        );
+                                        getActivity().runOnUiThread(() -> {
+                                            if (id != -1) {
+                                                Toast.makeText(getContext(), "Materia asignada: " + seleccionada.nombre, Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(getContext(), "La materia ya está asignada a este docente", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                                     }
                                 });
                             })

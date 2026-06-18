@@ -21,7 +21,7 @@ import com.example.expedienteenlneaues.data.entity.Inscripcion;
 import com.example.expedienteenlneaues.data.entity.Materia;
 import com.example.expedienteenlneaues.data.entity.Usuario;
 
-@Database(entities = {Usuario.class, Carrera.class, Materia.class, Expediente.class, Docente.class, Inscripcion.class, Asignacion.class}, version = 10, exportSchema = false)
+@Database(entities = {Usuario.class, Carrera.class, Materia.class, Expediente.class, Docente.class, Inscripcion.class, Asignacion.class}, version = 11, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     
     public abstract UsuarioDao usuarioDao();
