@@ -10,7 +10,7 @@ import androidx.room.Index;
         foreignKeys = @ForeignKey(entity = Carrera.class,
                 parentColumns = "id",
                 childColumns = "carreraId",
-                onDelete = ForeignKey.CASCADE),
+                onDelete = ForeignKey.RESTRICT),
         indices = {@Index("carreraId")})
 public class Materia {
     @PrimaryKey(autoGenerate = true)

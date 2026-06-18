@@ -30,6 +30,9 @@ public interface MateriaDao {
     @Query("SELECT * FROM materias WHERE id = :id")
     Materia getById(int id);
 
+    @Query("SELECT COUNT(*) FROM materias WHERE carreraId = :carreraId")
+    int getCountByCarrera(int carreraId);
+
     @Query("SELECT COUNT(*) FROM materias")
     int getCount();
 }

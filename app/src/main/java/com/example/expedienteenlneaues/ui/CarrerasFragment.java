@@ -105,21 +105,37 @@ public class CarrerasFragment extends Fragment implements CarreraAdapter.OnCarre
 
     @Override
     public void onDeleteClick(Carrera carrera) {
-        new AlertDialog.Builder(requireContext())
-                .setTitle("Eliminar Carrera")
-                .setMessage("¿Eliminar la carrera " + carrera.nombre + " y todo su pensum?")
-                .setPositiveButton("Eliminar", (dialog, which) -> {
-                    executorService.execute(() -> {
-                        db.carreraDao().delete(carrera);
-                        loadCarreras();
-                        if (getActivity() != null) {
-                            getActivity().runOnUiThread(() -> 
-                                    Toast.makeText(getContext(), "Carrera eliminada", Toast.LENGTH_SHORT).show()
-                            );
-                        }
-                    });
-                })
-                .setNegativeButton("Cancelar", null)
-                .show();
+        executorService.execute(() -> {
+            int materiasCount = db.materiaDao().getCountByCarrera(carrera.id);
+            
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    if (materiasCount > 0) {
+                        new AlertDialog.Builder(requireContext())
+                                .setTitle("No se puede eliminar")
+                                .setMessage("La carrera '" + carrera.nombre + "' tiene " + materiasCount + " materias asociadas. Debe eliminarlas antes de poder borrar la carrera.")
+                                .setPositiveButton("Entendido", null)
+                                .show();
+                    } else {
+                        new AlertDialog.Builder(requireContext())
+                                .setTitle("Eliminar Carrera")
+                                .setMessage("¿Está seguro de que desea eliminar la carrera '" + carrera.nombre + "'?")
+                                .setPositiveButton("Eliminar", (dialog, which) -> {
+                                    executorService.execute(() -> {
+                                        db.carreraDao().delete(carrera);
+                                        loadCarreras();
+                                        if (getActivity() != null) {
+                                            getActivity().runOnUiThread(() ->
+                                                    Toast.makeText(getContext(), "Carrera eliminada", Toast.LENGTH_SHORT).show()
+                                            );
+                                        }
+                                    });
+                                })
+                                .setNegativeButton("Cancelar", null)
+                                .show();
+                    }
+                });
+            }
+        });
     }
 }
