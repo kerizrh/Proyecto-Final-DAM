@@ -14,8 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.expedienteenlneaues.data.AppDatabase;
 import com.example.expedienteenlneaues.data.entity.Usuario;
 
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -24,6 +26,12 @@ public class LoginActivity extends AppCompatActivity {
     private TextView tvRegisterLink;
     private AppDatabase db;
     private ExecutorService executorService;
+
+    private static final Pattern CARNET_PATTERN =
+            Pattern.compile("^[A-Za-z]{2}\\d{1,6}$");
+
+    private static final Pattern PASSWORD_PATTERN =
+            Pattern.compile("^[A-Za-z0-9]{6,20}$");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +63,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginUser() {
-        String username = etUsername.getText().toString().trim();
+        String username = etUsername.getText().toString().trim().toUpperCase(Locale.ROOT);
         String password = etPassword.getText().toString().trim();
 
-        if (username.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Llene todos los campos", Toast.LENGTH_SHORT).show();
+        if (!validateFields(username, password)) {
             return;
         }
 
@@ -72,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putBoolean("isLoggedIn", true);
                     editor.putString("username", usuario.username);
+                    editor.putString("fullName", usuario.nombreCompleto);
                     editor.apply();
 
                     Toast.makeText(LoginActivity.this, "Bienvenido " + usuario.nombreCompleto, Toast.LENGTH_SHORT).show();
@@ -81,6 +89,34 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         });
+    }
+
+    private boolean validateFields(String username, String password) {
+        if (username.isEmpty()) {
+            etUsername.setError("Ingrese su carnet");
+            etUsername.requestFocus();
+            return false;
+        }
+
+        if (!CARNET_PATTERN.matcher(username).matches()) {
+            etUsername.setError("Formato válido: 2 letras y hasta 6 números. Ejemplo: MS19059");
+            etUsername.requestFocus();
+            return false;
+        }
+
+        if (password.isEmpty()) {
+            etPassword.setError("Ingrese su contraseña");
+            etPassword.requestFocus();
+            return false;
+        }
+
+        if (!PASSWORD_PATTERN.matcher(password).matches()) {
+            etPassword.setError("Use solo letras y números. Mínimo 6 y máximo 20 caracteres");
+            etPassword.requestFocus();
+            return false;
+        }
+
+        return true;
     }
 
     private void goToMainActivity() {

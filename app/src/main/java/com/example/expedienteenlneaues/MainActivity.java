@@ -73,8 +73,9 @@ public class MainActivity extends AppCompatActivity {
         ivProfileImage = headerView.findViewById(R.id.ivProfileImage);
         TextView tvProfileName = headerView.findViewById(R.id.tvProfileName);
         
+        String fullName = prefs.getString("fullName", null);
         String username = prefs.getString("username", "Usuario");
-        tvProfileName.setText(username);
+        tvProfileName.setText(fullName != null && !fullName.isEmpty() ? fullName : username);
         
         String profileImagePath = prefs.getString("profile_image_uri", null);
         loadProfileImage(profileImagePath);
